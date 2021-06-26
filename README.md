@@ -11,8 +11,7 @@ To compile, first we need clone to the repository:
 $ git clone https://github.com/rxxbyy/guess-the-number
 $ cd guess-the-number/
 ```
-To run the game you can just execute `guess-the-number` file or instead
-you can compile `guess-the-number.c` file by the following:
+You can compile `guess-the-number.c` file by the following:
 - Compiling:
 ```
 $ gcc guess-the-number.c -o guess-the-number

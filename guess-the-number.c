@@ -79,6 +79,8 @@ int main()
         /* Checking if `userNumber` is not out of: minRange > userNumber < maxRange. */
         if (userNumber < minRange || userNumber > maxRange) {
             printf("That number is out of range, bro ._.\nTry again.\n");
+            ++remainingAttempts;
+            continue;
         }
 
         /* Showing if user number is smaller or higher than secret number,
