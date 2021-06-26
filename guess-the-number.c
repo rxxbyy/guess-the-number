@@ -8,7 +8,7 @@ void displayMenu(void);
 
 /* Generates a random integer between 'minRange' and 'maxRange' using
     'srand' and 'rand' functions. */
-int generateRandomNumber(int minRange, int maxRange);
+unsigned generateRandomNumber(unsigned minRange, unsigned maxRange);
 
 /* Use "displayMenu()" and ask to user enter a difficulty value. It
     can be 'E' for Easy, 'M' for Medium and 'H' for Hard. */
@@ -24,7 +24,7 @@ int playAgain(void);
 
 /* Enumerations for represent game information like difficulty or
     the game status */
-enum DIFFICULTY {EASY, MEDIUM, HARD};
+enum DIFFICULTY {EASY, MEDIUM, HARD, CUSTOM};
 enum GAME_STATUS {WIN, LOSE};
 
 
@@ -34,11 +34,11 @@ int main()
     enum GAME_STATUS gameStatus;
 
     /* Defining some internal game variables */
-    int secretNumber;
-    int userNumber;
-    int minRange = 1;
-    int maxRange;
-    int remainingAttempts;
+    unsigned secretNumber;
+    unsigned userNumber;
+    unsigned minRange = 1;
+    unsigned maxRange;
+    unsigned remainingAttempts;
 
     /* Asking to user enter a difficulty value using `getGameDifficulty` */
     gameDiff = getGameDifficulty();
@@ -59,6 +59,14 @@ int main()
             maxRange = 50;
             remainingAttempts = 5;
             break;
+        
+        case CUSTOM:
+            printf("Enter the ranges where the number will be generated (min, max): ");
+            scanf("%d, %d", &minRange, &maxRange);
+
+            printf("Now enter the possibly attempts: ");
+            scanf("%d", &remainingAttempts);
+            break;
     }
 
     /* After set the ranges, we can generate the secret number using 
@@ -78,14 +86,14 @@ int main()
 
         /* Checking if `userNumber` is not out of: minRange > userNumber < maxRange. */
         if (userNumber < minRange || userNumber > maxRange) {
-            printf("That number is out of range, bro ._.\nTry again.\n");
+            printf("\nThat number is out of range, bro ._.\nTry again.\n");
             ++remainingAttempts;
             continue;
         }
 
         /* Showing if user number is smaller or higher than secret number,
             if it is not smaller or higher means that both are equals, so
-            user wins and then we set `gameStatus` to 'WIN' and we break the
+            user wins, then we set `gameStatus` to 'WIN' and we break the
             game loop. */
         if (userNumber < secretNumber) {
             printf("\nIncorrect. The secret number is higher.\n");
@@ -124,9 +132,10 @@ void displayMenu(void)
     printf("[E] Easy\n");
     printf("[M] Medium\n");
     printf("[H] Hard\n");
+    printf("[C] Custom\n");
 }
 
-int generateRandomNumber(int minRange, int maxRange)
+unsigned generateRandomNumber(unsigned minRange, unsigned maxRange)
 {
     srand(time(NULL));
     return minRange + (rand() % maxRange);
@@ -154,6 +163,11 @@ int getGameDifficulty(void)
         case 'h':
         case 'H':
             return HARD;
+            break;
+        
+        case 'c':
+        case 'C':
+            return CUSTOM;
             break;
         
         default:
